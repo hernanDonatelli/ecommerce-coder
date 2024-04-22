@@ -8,8 +8,8 @@ const CartWidget = () => {
             <button
                 className={
                     cantidad > 0
-                        ? "motion-safe:animate-bounce text-lg font-bold sm:mr-8 text-red-400 flex"
-                        : "text-lg font-bold text-slate-300 sm:mr-8 flex"
+                        ? "motion-safe:animate-bounce text-lg font-bold text-links-hover flex w-full justify-center my-2 md:ml-8"
+                        : "text-lg font-bold my-2 text-paragraph flex w-full justify-center md:ml-8"
                 }
             >
                 <FaShoppingCart className="h-8 w-8" />

@@ -1,57 +1,42 @@
+@import url('https://fonts.googleapis.com/css2?family=Readex+Pro:wght@200;300;400;500;600;700&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-.poppins-light {
-    font-family: "Poppins", sans-serif;
-    font-weight: 300;
-    font-style: normal;
+@layer base{
+    body{
+        font-family: "Readex Pro", sans-serif;
+    }
 }
 
-.poppins-regular {
-    font-family: "Poppins", sans-serif;
-    font-weight: 400;
-    font-style: normal;
+@layer components{
+    .card{
+        @apply bg-white w-72 text-gray-700 min-h-[10rem] overflow-hidden rounded-md shadow-lg mb-4
+    }
+
+    .badge{
+        @apply px-3 py-1 rounded-full text-xs bg-gray-100
+    }
+
+    .product-title{
+        @apply font-semibold text-xl overflow-ellipsis overflow-hidden whitespace-nowrap
+    }
+
+    .discount-percent{
+        @apply bg-blue-400 text-white px-1.5 py-0.5 rounded-full text-xs
+    }
+
+    .button-primary{
+        @apply bg-links-hover/75 hover:bg-links-hover px-6 py-2 rounded-md text-white font-medium tracking-wider transition hover:scale-105 active:scale-95 uppercase text-xs
+    }
+
+    .button-disabled{
+        @apply bg-gray-300 px-6 py-2 rounded-md text-white font-medium tracking-wider transition cursor-not-allowed uppercase text-xs
+    }
+
+    .button-icon{
+        @apply flex-grow flex justify-center items-center bg-gray-300/60 hover:bg-gray-300/80 p-2 rounded-md transition
+    }
 }
 
-.poppins-semibold {
-    font-family: "Poppins", sans-serif;
-    font-weight: 600;
-    font-style: normal;
-}
-
-.poppins-bold {
-    font-family: "Poppins", sans-serif;
-    font-weight: 700;
-    font-style: normal;
-}
-
-.poppins-black {
-    font-family: "Poppins", sans-serif;
-    font-weight: 900;
-    font-style: normal;
-}
-
-.roboto-light {
-    font-family: "Roboto", sans-serif;
-    font-weight: 300;
-    font-style: normal;
-}
-
-.roboto-regular {
-    font-family: "Roboto", sans-serif;
-    font-weight: 400;
-    font-style: normal;
-}
-
-.roboto-bold {
-    font-family: "Roboto", sans-serif;
-    font-weight: 700;
-    font-style: normal;
-}
-
-.roboto-black {
-    font-family: "Roboto", sans-serif;
-    font-weight: 900;
-    font-style: normal;
-}

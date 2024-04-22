@@ -1,94 +1,71 @@
 import { useState } from "react";
-import logo from "../assets/logo.png";
+import { Link } from "react-router-dom";
+import Logo from "./Logo";
 import CartWidget from "./CartWidget";
+import { IoMdClose, IoMdMenu } from "react-icons/io";
 import "../index.css";
-import {
-    Navbar,
-    NavbarBrand,
-    NavbarContent,
-    NavbarItem,
-    NavbarMenuToggle,
-    NavbarMenu,
-    NavbarMenuItem,
-    Link,
-} from "@nextui-org/react";
 
-const NavbarComponent = () => {
-    const [isMenuOpen, setIsMenuOpen] = useState(false);
+const links = [
+    {
+        name: "Inicio",
+        url: "/",
+    },
+    {
+        name: "Productos",
+        url: "/products",
+    },
+    {
+        name: "Categorias",
+        url: "/categories",
+    },
+    {
+        name: "Contacto",
+        url: "/contact",
+    },
+];
 
-    const menuItems = ["Inicio", "Productos", "Categorias", "Contacto"];
+const Navbar = () => {
+    const [isOpen, setIsOpen] = useState(false);
+
+    const toggleMenu = () => {
+        setIsOpen(!isOpen);
+    };
 
     return (
-        <div className="flex items-center p-2 bg-slate-400">
-            {/* Menu */}
-            <Navbar
-                className="poppins-regular bg-slate-400 flex justify-start items-center"
-                onMenuOpenChange={setIsMenuOpen}
-            >
-                <NavbarContent>
-                    <NavbarMenuToggle
-                        aria-label={isMenuOpen ? "Cerrar menu" : "Abrir menu"}
-                        className="sm:hidden"
-                    />
-                    <NavbarBrand className="sm:flex gap-2">
-                        <img
-                            src={logo}
-                            alt="logo"
-                            className="w-12 sm:w-16 block sm:pr-4 md:pr-0"
-                        />
-                        <h4 className="text-xl font-bold text-slate-300">
-                            Paretto
-                        </h4>
-                    </NavbarBrand>
-                </NavbarContent>
+        <div className="shadow-lg w-full sticky z-50 top-0 left-0">
+            <div className="md:flex items-center justify-between bg-gray-100 py-2 px-4">
+                <Logo />
 
-                <NavbarContent className="hidden sm:flex gap-4">
-                    <NavbarItem>
-                        <Link className="text-slate-200 font-bold hover:text-pink-500 transition-all" href="#">
-                            Inicio
-                        </Link>
-                    </NavbarItem>
-                    <NavbarItem>
-                        <Link className="text-slate-200 font-bold hover:text-pink-500 transition-all" href="#">
-                            Productos
-                        </Link>
-                    </NavbarItem>
-                    <NavbarItem>
-                        <Link className="text-slate-200 font-bold hover:text-pink-500 transition-all" href="#">
-                            Nosotros
-                        </Link>
-                    </NavbarItem>
-                    <NavbarItem>
-                        <Link className="text-slate-200 font-bold hover:text-pink-500 transition-all" href="#">
-                            Contacto
-                        </Link>
-                    </NavbarItem>
-                </NavbarContent>
+                <div onClick={toggleMenu}>
+                    {isOpen ? (
+                        <IoMdClose className="text-3xl absolute right-8 top-4 cursor-pointer md:hidden" />
+                    ) : (
+                        <IoMdMenu className="text-3xl absolute right-8 top-4 cursor-pointer md:hidden" />
+                    )}
 
-                {/* Menu Mobile */}
-                <NavbarMenu className="poppins-regular bg-slate-500 top-20">
-                    {menuItems.map((item, index) => (
-                        <NavbarMenuItem key={`${item}-${index}`}>
-                            <Link
-                                style={{
-                                    borderBottom: "1px solid #cbd5e1",
-                                    paddingBottom: "5px",
-                                }}
-                                className="w-full text-slate-300"
-                                href="#"
-                                size="lg"
+                    <ul
+                        className={`md:flex md:items-center pb-10 md:pb-0 absolute md:static bg-gray-100 md:z-auto left-0 w-full md:w-auto md:pl-0 pl-9 transition-all duration-1000 ease-in-out ${ isOpen ? "top-[55px] sm:top-[70px] opacity-100" : "top-[-400px]"} md:opacity-100 opacity-0`}
+                    >
+                        {links.map((link) => (
+                            <li
+                                key={link.name}
+                                className="py-2 px-2 my-4 md:my-0"
                             >
-                                {item}
-                            </Link>
-                        </NavbarMenuItem>
-                    ))}
-                </NavbarMenu>
-            </Navbar>
+                                <Link
+                                    className="hover:text-links-hover text-lg block text-center duration-400 ease-in-out"
+                                    to={link.url}
+                                >
+                                    {link.name}
+                                </Link>
+                            </li>
+                        ))}
 
-            {/* Carrito */}
-            <CartWidget className="poppins-regular bg-slate-500" />
+                        <CartWidget />
+                    </ul>
+                </div>
+            </div>
         </div>
     );
 };
 
-export default NavbarComponent;
+export default Navbar;

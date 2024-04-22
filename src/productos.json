@@ -1,0 +1,50 @@
+[
+    {
+        "id": 1,
+        "title": "Chocolate Taza",
+        "description": "Chocolate Semiamargo para Taza. Tabletas por 100g. Sin Tacc",
+        "price": 300,
+        "imageURL": "https://picsum.photos/300/200?random=1?greyscale",
+        "stock": 5
+    },
+    {
+        "id": 2,
+        "title": "Chocolate 55% Cacao",
+        "description": "Chocolate Semiamargo 55% Cacao. Tabletas por 100g. Sin Tacc",
+        "price": 200,
+        "imageURL": "https://picsum.photos/300/200?random=2?greyscale",
+        "stock": 15
+    },
+    {
+        "id": 3,
+        "title": "Chocolate Orgánico 60% Cacao",
+        "description": "Chocolate Semiamargo 60% Cacao. Tabletas por 100g. Sin Tacc",
+        "price": 300,
+        "imageURL": "https://picsum.photos/300/200?random=3?greyscale",
+        "stock": 0
+    },
+    {
+        "id": 4,
+        "title": "Chocolate Orgánico 70% Cacao",
+        "description": "Chocolate Semiamargo 70% Cacao. Tabletas por 100g. Sin Tacc",
+        "price": 350,
+        "imageURL": "https://picsum.photos/300/200?random=4?greyscale",
+        "stock": 10
+    },
+    {
+        "id": 5,
+        "title": "Chocolate Orgánico 80% Cacao",
+        "description": "Chocolate Semiamargo 80% Cacao. Tabletas por 100g. Sin Tacc",
+        "price": 350,
+        "imageURL": "https://picsum.photos/300/200?random=5?greyscale",
+        "stock": 0
+    },
+    {
+        "id": 6,
+        "title": "Frutilla Light 260g",
+        "description": "Mermelada de frutilla sin azucar agregada. Sin Tacc",
+        "price": 2550,
+        "imageURL": "https://picsum.photos/300/200?random=6?greyscale",
+        "stock": 12
+    }
+]

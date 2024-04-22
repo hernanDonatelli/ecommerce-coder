@@ -8,7 +8,12 @@ export default {
     "./node_modules/@nextui-org/theme/dist/**/*.{js,ts,jsx,tsx}"
   ],
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        'links-hover': '#e5097f',
+        'paragraph': '#414040',
+      },
+    },
   },
   plugins: [nextui()],
 }
