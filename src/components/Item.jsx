@@ -1,22 +1,41 @@
-import { AiFillStar, AiFillHeart, AiOutlineStar, AiFillEye } from "react-icons/ai";
+import { useEffect, useState } from "react";
+import {
+    AiFillStar,
+    AiFillHeart,
+    AiOutlineStar,
+    AiFillEye,
+} from "react-icons/ai";
+import Aos from "aos";
+import "aos/dist/aos.css";
 
 const Item = ({ item }) => {
+    item.stock = Math.floor(Math.random() * 10);
+console.log(item);
+    useEffect(() => {
+        Aos.init();
+    }, []);
 
     return (
-        <div className="card">
+        <div data-aos="zoom-in" data-aos-duration="1000" className="card">
             <img
-                className="w-full h-full object-cover"
-                src={item.imageURL}
+                className="w-full h-[300px] object-cover"
+                src={item.image}
                 alt={item.title}
             />
 
             <div className="p-5 flex flex-col gap-3">
                 {/* Badge */}
                 <div className="flex items-center justify-between gap-2">
-                    <span className={item.stock > 0 ? "badge bg-green-400 text-white" : "badge bg-red-400 text-white"}>
+                    <span
+                        className={
+                            item.stock > 0
+                                ? "badge bg-green-400 text-white"
+                                : "badge bg-red-400 text-white"
+                        }
+                    >
                         {item.stock > 0 ? "Disponible" : "Agotado"}
                     </span>
-                    <span className="badge">Categoria</span>
+                    <span className="badge">{item.category}</span>
                 </div>
 
                 {/* Product title */}
@@ -41,13 +60,22 @@ const Item = ({ item }) => {
                     <AiOutlineStar style={{ color: "orange" }} />
                     <AiOutlineStar style={{ color: "orange" }} />
                     <span className="text-xs ml-2 text-gray-500">
-                        458 revisiones
+                        {item.rating.count} reviews
                     </span>
                 </span>
 
                 {/* Add to cart button */}
                 <div className="mt-5 flex gap-2">
-                    <button className={item.stock === 0 ? "button-disabled" : "button-primary"} disabled={item.stock === 0}>Agregar</button>
+                    <button
+                        className={
+                            item.stock === 0
+                                ? "button-disabled"
+                                : "button-primary"
+                        }
+                        disabled={item.stock === 0}
+                    >
+                        Agregar
+                    </button>
                     <button className="opacity-50 text-xl button-icon hover:opacity-100 transition">
                         <AiFillHeart />
                     </button>

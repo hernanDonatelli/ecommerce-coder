@@ -1,23 +1,27 @@
 // import ItemCount from "./ItemCount";
 import ItemList from "./ItemList";
-import products from "../productos.json";
 import { useState, useEffect } from "react";
+import GridLoader from "react-spinners/GridLoader";
+
+const override = {
+    display: "block",
+    margin: "4rem auto",
+};
 
 const ItemListContainer = ({ greeting }) => {
-    const stock = 10;
     const [items, setItems] = useState([]);
     const [loading, setLoading] = useState(true);
-
-    const onAdd = (quantity) => {
-        console.log(`Se agregaron ${quantity} productos al carrito`);
-    };
+    const [color, setColor] = useState("#e5097f");
 
     useEffect(() => {
-        setTimeout(() => {
-            setItems(products);
+        fetch('https://fakestoreapi.com/products')
+            .then((res) => res.json())
+            .then((data) => {
+                setItems(data);
+                setLoading(false);
+            })
 
-            setLoading(false);
-        }, 2000);
+
     }, []); //lo dejo vacio para que haga la carga inicial
 
     return (
@@ -28,7 +32,21 @@ const ItemListContainer = ({ greeting }) => {
 
             {/* <ItemCount stock={stock} initial={1} onAdd={onAdd} /> */}
 
-            {loading ? <h2>Cargando...</h2> : <ItemList items={items} />}
+            <div className="flex justify-center">
+                {loading ? (
+                    <GridLoader
+                        color={color}
+                        loading={loading}
+                        cssOverride={override}
+                        size={20}
+                        aria-label="Cargando..."
+                        data-testid="loader"
+                        speedMultiplier={0.75}
+                    />
+                ) : (
+                    <ItemList items={items} />
+                )}
+            </div>
         </div>
     );
 };

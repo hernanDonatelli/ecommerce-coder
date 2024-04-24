@@ -5,7 +5,8 @@
         "description": "Chocolate Semiamargo para Taza. Tabletas por 100g. Sin Tacc",
         "price": 300,
         "imageURL": "https://picsum.photos/300/200?random=1?greyscale",
-        "stock": 5
+        "stock": 5,
+        "categories": "Chocolates"
     },
     {
         "id": 2,
@@ -13,7 +14,8 @@
         "description": "Chocolate Semiamargo 55% Cacao. Tabletas por 100g. Sin Tacc",
         "price": 200,
         "imageURL": "https://picsum.photos/300/200?random=2?greyscale",
-        "stock": 15
+        "stock": 15,
+        "categories": "Chocolates"
     },
     {
         "id": 3,
@@ -21,7 +23,8 @@
         "description": "Chocolate Semiamargo 60% Cacao. Tabletas por 100g. Sin Tacc",
         "price": 300,
         "imageURL": "https://picsum.photos/300/200?random=3?greyscale",
-        "stock": 0
+        "stock": 0,
+        "categories": "Chocolates"
     },
     {
         "id": 4,
@@ -29,7 +32,8 @@
         "description": "Chocolate Semiamargo 70% Cacao. Tabletas por 100g. Sin Tacc",
         "price": 350,
         "imageURL": "https://picsum.photos/300/200?random=4?greyscale",
-        "stock": 10
+        "stock": 10,
+        "categories": "Chocolates"
     },
     {
         "id": 5,
@@ -37,7 +41,8 @@
         "description": "Chocolate Semiamargo 80% Cacao. Tabletas por 100g. Sin Tacc",
         "price": 350,
         "imageURL": "https://picsum.photos/300/200?random=5?greyscale",
-        "stock": 0
+        "stock": 0,
+        "categories": "Chocolates"
     },
     {
         "id": 6,
@@ -45,6 +50,34 @@
         "description": "Mermelada de frutilla sin azucar agregada. Sin Tacc",
         "price": 2550,
         "imageURL": "https://picsum.photos/300/200?random=6?greyscale",
-        "stock": 12
+        "stock": 12,
+        "categories": "Mermeladas"
+    },
+    {
+        "id": 7,
+        "title": "Arándano Light 260g",
+        "description": "Mermelada de arándanos sin azucar agregada. Sin Tacc",
+        "price": 2550,
+        "imageURL": "https://picsum.photos/300/200?random=7?greyscale",
+        "stock": 21,
+        "categories": "Mermeladas"
+    },
+    {
+        "id": 8,
+        "title": "Frutos del Bosque Light 260g",
+        "description": "Mermelada de mix de frutos patagónicos sin azucar agregada. Sin Tacc",
+        "price": 2270,
+        "imageURL": "https://picsum.photos/300/200?random=8?greyscale",
+        "stock": 0,
+        "categories": "Mermeladas"
+    },
+    {
+        "id": 9,
+        "title": "Frambuesa Light 260g",
+        "description": "Mermelada de frambuesa sin azucar agregada. Sin Tacc",
+        "price": 3140,
+        "imageURL": "https://picsum.photos/300/200?random=9?greyscale",
+        "stock": 10,
+        "categories": "Mermeladas"
     }
 ]

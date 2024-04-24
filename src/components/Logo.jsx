@@ -8,7 +8,7 @@ const Logo = () => {
                 alt="logo"
                 className="w-12 sm:w-16 block pr-2"
             />
-            <h4 className="text-xl font-bold text-paragraph">Paretto</h4>
+            <h4 className="text-xl font-bold text-paragraph">FakeStore</h4>
         </div>
     );
 };

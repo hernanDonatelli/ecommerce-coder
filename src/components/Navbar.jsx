@@ -49,10 +49,10 @@ const Navbar = () => {
                         {links.map((link) => (
                             <li
                                 key={link.name}
-                                className="py-2 px-2 my-4 md:my-0"
+                                className="py-2 px-2 my-2 md:my-0"
                             >
                                 <Link
-                                    className="hover:text-links-hover text-lg block text-center duration-400 ease-in-out"
+                                    className="hover:text-links-hover text-base block text-center duration-400 ease-in-out"
                                     to={link.url}
                                 >
                                     {link.name}
