@@ -28,11 +28,11 @@
     }
 
     .button-primary{
-        @apply bg-links-hover/75 hover:bg-links-hover px-6 py-2 rounded-md text-white font-medium tracking-wider transition hover:scale-105 active:scale-95 uppercase text-xs
+        @apply bg-links-hover/75 hover:bg-links-hover px-6 py-3 rounded-md text-white font-medium tracking-wider transition uppercase text-sm
     }
 
     .button-disabled{
-        @apply bg-gray-300 px-6 py-2 rounded-md text-white font-medium tracking-wider transition cursor-not-allowed uppercase text-xs
+        @apply bg-gray-300 px-6 py-3 rounded-md text-white font-medium tracking-wider transition cursor-not-allowed uppercase text-sm
     }
 
     .button-icon{

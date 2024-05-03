@@ -1,5 +1,4 @@
-import { useState, useEffect } from "react";
-import { Button } from "@nextui-org/react";
+import { useState } from "react";
 import { IoMdAdd } from "react-icons/io";
 import { BiMinus } from "react-icons/bi";
 
@@ -30,32 +29,31 @@ const ItemCount = ({ initial, stock, onAdd }) => {
     };
 
     return (
-        <div className="flex justify-center items-center">
-            <div className="flex justify-center items-center border-1 border-slate-200 py-1 px-8">
+        <div className="flex flex-col items-center mt-5 lg:flex-row">
+            <div className="w-full flex justify-between items-center bg-gray-200 rounded-sm px-8 py-2 mb-3 lg:mb-0 lg:w-1/3 lg:px-4">
                 <BiMinus
-                    style={{ color: "#212121" }}
                     onClick={decrement}
-                    className="text-2xl cursor-pointer"
+                    className="text-lg cursor-pointer text-links-hover font-extrabold"
                 />
 
-                <span className="text-xl block w-20 text-center">{count}</span>
+                <span className="text-lg block w-20 text-center">{count}</span>
 
                 <IoMdAdd
-                    style={{ color: "#212121" }}
                     onClick={increment}
-                    className="text-2xl cursor-pointer"
+                    className="text-lg cursor-pointer text-links-hover font-extrabold"
                 />
-                <Button
-                className="ml-8"
-                    onClick={addToCart}
-                    color="primary"
-                    variant="bordered"
-                    isDisabled={stock == 0}
-                >
-                    Agregar al Carrito
-                </Button>
             </div>
-
+            <button
+                onClick={addToCart}
+                className={
+                    stock === 0
+                        ? "button-disabled w-full lg:w-2/3 lg:ml-3"
+                        : "button-primary w-full lg:w-2/3 lg:ml-3"
+                }
+                disabled={stock === 0}
+            >
+                Agregar al Carrito
+            </button>
         </div>
     );
 };
