@@ -5,7 +5,7 @@ import CartWidget from "./CartWidget";
 import { IoMdClose, IoMdMenu } from "react-icons/io";
 import "../index.css";
 
-const Navbar = ({categorias}) => {
+const Navbar = () => {
     const [isOpen, setIsOpen] = useState(false);
 
     const toggleMenu = () => {
@@ -45,24 +45,54 @@ const Navbar = ({categorias}) => {
                                         Inicio
                                     </NavLink>
                                 </li>
-
-                                {categorias.map((categoria) => (
-                                    <li
-                                        key={categoria.id}
-                                        className="py-2 px-2 my-2 md:my-0 w-full 2xl:w-1/6"
+                                <li className="py-2 px-2 my-2 md:my-0 w-full 2xl:w-1/6">
+                                    <NavLink
+                                        className={({ isActive }) =>
+                                            isActive
+                                                ? "text-pink-600 text-center block"
+                                                : "hover:text-links-hover text-base block text-center duration-400 ease-in-out"
+                                        }
+                                        to={"/category/1"}
                                     >
-                                        <NavLink
-                                            className={({ isActive }) =>
-                                                isActive
-                                                    ? "text-pink-600 text-center block"
-                                                    : "hover:text-links-hover text-base block text-center duration-400 ease-in-out"
-                                            }
-                                            to={`/category/${categoria.id}`}
-                                        >
-                                            {categoria.name}
-                                        </NavLink>
-                                    </li>
-                                ))}
+                                        Electronics
+                                    </NavLink>
+                                </li>
+                                <li className="py-2 px-2 my-2 md:my-0 w-full 2xl:w-1/6">
+                                    <NavLink
+                                        className={({ isActive }) =>
+                                            isActive
+                                                ? "text-pink-600 text-center block"
+                                                : "hover:text-links-hover text-base block text-center duration-400 ease-in-out"
+                                        }
+                                        to={"/category/2"}
+                                    >
+                                        Jewelery
+                                    </NavLink>
+                                </li>
+                                <li className="py-2 px-2 my-2 md:my-0 w-full 2xl:w-1/6">
+                                    <NavLink
+                                        className={({ isActive }) =>
+                                            isActive
+                                                ? "text-pink-600 text-center block"
+                                                : "hover:text-links-hover text-base block text-center duration-400 ease-in-out"
+                                        }
+                                        to={"/category/3"}
+                                    >
+                                        Women's clothing
+                                    </NavLink>
+                                </li>
+                                <li className="py-2 px-2 my-2 md:my-0 w-full 2xl:w-1/6">
+                                    <NavLink
+                                        className={({ isActive }) =>
+                                            isActive
+                                                ? "text-pink-600 text-center block"
+                                                : "hover:text-links-hover text-base block text-center duration-400 ease-in-out"
+                                        }
+                                        to={"/category/4"}
+                                    >
+                                        Men's clothing
+                                    </NavLink>
+                                </li>
                             </>
                         }
 

@@ -1,4 +1,3 @@
-
 import ItemDetail from "./ItemDetail";
 
 const ItemList = ({ productos }) => {

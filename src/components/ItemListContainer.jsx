@@ -9,49 +9,70 @@ const override = {
     margin: "4rem auto",
 };
 
-const ItemListContainer = ({
-    greeting,
-    items,
-    loading,
-    categorias,
-    productos,
-}) => {
-    const { id } = useParams();
+const ItemListContainer = ({ greeting }) => {
+    const { idCategory } = useParams();
     const [color, setColor] = useState("#e5097f");
-    const [carga, setCarga] = useState(true);
+    const [productos, setProductos] = useState([]);
     const [filtrado, setFiltrado] = useState([]);
-    const [idURL, setIdURL] = useState(id);
+    const [loading, setLoading] = useState(true);
+    const [nameCategory, setNameCategory] = useState("");
 
     useEffect(() => {
-        setIdURL(Number(id));
-        let nameCategory;
+        fetch("https://fakestoreapi.com/products")
+            .then((res) => res.json())
+            .then((data) => {
+                if (idCategory === undefined) {
+                    setProductos(data);
+                } else {
+                    switch (idCategory) {
+                        case "1":
+                            setFiltrado(
+                                data.filter(
+                                    (element) =>
+                                        element.category === "electronics"
+                                )
+                            );
+                            setNameCategory("Electronics");
+                            break;
 
-        if (id === undefined || id > categorias.length) {
-            setCarga(false);
-            return;
-        } else {
-            categorias.map((item) => {
-                if (item.id == id) {
-                    nameCategory = item.name;
+                        case "2":
+                            setFiltrado(
+                                data.filter(
+                                    (element) => element.category === "jewelery"
+                                )
+                            );
+                            setNameCategory("Jewelery");
+                            break;
+
+                        case "3":
+                            setFiltrado(
+                                data.filter(
+                                    (element) =>
+                                        element.category === "women's clothing"
+                                )
+                            );
+                            setNameCategory("Women's clothing");
+                            break;
+
+                        case "4":
+                            setFiltrado(
+                                data.filter(
+                                    (element) =>
+                                        element.category === "men's clothing"
+                                )
+                            );
+                            setNameCategory("Men's clothing");
+                            break;
+
+                        default:
+                            setFiltrado(data);
+                            setNameCategory("Todos los productos");
+                            break;
+                    }
                 }
+                setLoading(false);
             });
-        }
-
-        filteredCategory({ nameCategory });
-
-        setCarga(false);
-    }, [id]);
-
-    const filteredCategory = ({ nameCategory }) => {
-        let filtered = [];
-        productos.filter((item) => {
-            if (item.category == nameCategory) {
-                filtered.push(item);
-            }
-        });
-
-        setFiltrado(filtered);
-    };
+    }, [idCategory]);
 
     return (
         <div>
@@ -60,37 +81,43 @@ const ItemListContainer = ({
             </h1>
 
             <div className="flex justify-center w-3/4 mx-auto md:w-full lg:w-3/4 2xl:w-full">
-                { id === undefined ? (
-                    <div>
-                        <GridLoader
-                            color={color}
-                            loading={loading}
-                            cssOverride={override}
-                            size={20}
-                            aria-label="Cargando..."
-                            data-testid="loader"
-                            speedMultiplier={0.75}
-                        />
-                        <ItemList productos={items} />
-                    </div>
-                ) : (
-                    <div>
-                        <GridLoader
-                            color={color}
-                            loading={carga}
-                            cssOverride={override}
-                            size={20}
-                            aria-label="Cargando..."
-                            data-testid="loader"
-                            speedMultiplier={0.75}
-                        />
-                        { id > categorias.length || isNaN(id) ? (
-                            <NotFound />
-                        ) : (
+                <div>
+                    {idCategory === undefined ? (
+                        <>
+                            <h2 className="text-2xl font-bold text-center mb-4">
+                                Todos los productos
+                            </h2>
+                            <GridLoader
+                                color={color}
+                                loading={loading}
+                                cssOverride={override}
+                                size={20}
+                                aria-label="Cargando..."
+                                data-testid="loader"
+                                speedMultiplier={0.75}
+                            />
+                            <ItemList productos={productos} />
+                        </>
+                    ) : idCategory < 5 ? (
+                        <>
+                            <GridLoader
+                                color={color}
+                                loading={loading}
+                                cssOverride={override}
+                                size={20}
+                                aria-label="Cargando..."
+                                data-testid="loader"
+                                speedMultiplier={0.75}
+                            />
+                            <h2 className="text-2xl font-bold text-center mb-4">
+                                {nameCategory}
+                            </h2>
                             <ItemList productos={filtrado} />
-                        )}
-                    </div>
-                )}
+                        </>
+                    ) : (
+                        <NotFound />
+                    )}
+                </div>
             </div>
         </div>
     );

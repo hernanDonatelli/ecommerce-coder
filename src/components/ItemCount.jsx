@@ -2,7 +2,7 @@ import { useState } from "react";
 import { IoMdAdd } from "react-icons/io";
 import { BiMinus } from "react-icons/bi";
 
-const ItemCount = ({ initial, stock, onAdd }) => {
+const ItemCount = ({ stock, initial, onAdd }) => {
     const [count, setCount] = useState(initial);
 
     const increment = () => {
