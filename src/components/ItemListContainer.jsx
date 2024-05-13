@@ -15,60 +15,21 @@ const ItemListContainer = ({ greeting }) => {
     const [productos, setProductos] = useState([]);
     const [filtrado, setFiltrado] = useState([]);
     const [loading, setLoading] = useState(true);
-    const [nameCategory, setNameCategory] = useState("");
 
     useEffect(() => {
         fetch("https://fakestoreapi.com/products")
             .then((res) => res.json())
             .then((data) => {
+                data.map((i) => {
+                    i.category = i.category.replace(" ", "-");
+                });
+
                 if (idCategory === undefined) {
                     setProductos(data);
                 } else {
-                    switch (idCategory) {
-                        case "1":
-                            setFiltrado(
-                                data.filter(
-                                    (element) =>
-                                        element.category === "electronics"
-                                )
-                            );
-                            setNameCategory("Electronics");
-                            break;
+                    const match = data.filter((i) => i.category === idCategory);
 
-                        case "2":
-                            setFiltrado(
-                                data.filter(
-                                    (element) => element.category === "jewelery"
-                                )
-                            );
-                            setNameCategory("Jewelery");
-                            break;
-
-                        case "3":
-                            setFiltrado(
-                                data.filter(
-                                    (element) =>
-                                        element.category === "women's clothing"
-                                )
-                            );
-                            setNameCategory("Women's clothing");
-                            break;
-
-                        case "4":
-                            setFiltrado(
-                                data.filter(
-                                    (element) =>
-                                        element.category === "men's clothing"
-                                )
-                            );
-                            setNameCategory("Men's clothing");
-                            break;
-
-                        default:
-                            setFiltrado(data);
-                            setNameCategory("Todos los productos");
-                            break;
-                    }
+                    setFiltrado(match);
                 }
                 setLoading(false);
             });
@@ -98,7 +59,7 @@ const ItemListContainer = ({ greeting }) => {
                             />
                             <ItemList productos={productos} />
                         </>
-                    ) : idCategory < 5 ? (
+                    ) :
                         <>
                             <GridLoader
                                 color={color}
@@ -109,14 +70,14 @@ const ItemListContainer = ({ greeting }) => {
                                 data-testid="loader"
                                 speedMultiplier={0.75}
                             />
-                            <h2 className="text-2xl font-bold text-center mb-4">
-                                {nameCategory}
-                            </h2>
+
                             <ItemList productos={filtrado} />
                         </>
-                    ) : (
-                        <NotFound />
-                    )}
+                    }
+
+                    {
+                        filtrado.length === 0 && idCategory !== undefined ? <NotFound /> : null
+                    }
                 </div>
             </div>
         </div>

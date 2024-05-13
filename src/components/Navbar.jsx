@@ -52,7 +52,7 @@ const Navbar = () => {
                                                 ? "text-pink-600 text-center block"
                                                 : "hover:text-links-hover text-base block text-center duration-400 ease-in-out"
                                         }
-                                        to={"/category/1"}
+                                        to={"/category/electronics"}
                                     >
                                         Electronics
                                     </NavLink>
@@ -64,7 +64,7 @@ const Navbar = () => {
                                                 ? "text-pink-600 text-center block"
                                                 : "hover:text-links-hover text-base block text-center duration-400 ease-in-out"
                                         }
-                                        to={"/category/2"}
+                                        to={"/category/jewelery"}
                                     >
                                         Jewelery
                                     </NavLink>
@@ -76,7 +76,7 @@ const Navbar = () => {
                                                 ? "text-pink-600 text-center block"
                                                 : "hover:text-links-hover text-base block text-center duration-400 ease-in-out"
                                         }
-                                        to={"/category/3"}
+                                        to={"/category/women's-clothing"}
                                     >
                                         Women's clothing
                                     </NavLink>
@@ -88,7 +88,7 @@ const Navbar = () => {
                                                 ? "text-pink-600 text-center block"
                                                 : "hover:text-links-hover text-base block text-center duration-400 ease-in-out"
                                         }
-                                        to={"/category/4"}
+                                        to={"/category/men's-clothing"}
                                     >
                                         Men's clothing
                                     </NavLink>

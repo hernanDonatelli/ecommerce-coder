@@ -7,7 +7,6 @@ import NotFound from "./components/NotFound";
 import { Routes, Route } from "react-router-dom";
 
 function App() {
-
     return (
         <>
             <Navbar />
@@ -18,20 +17,14 @@ function App() {
                     element={
                         <ItemListContainer
                             greeting={"Hola, bienvenido a la Tienda"}
-                            />
-                        }
-                        />
-                <Route
-                    path="/category/:idCategory"
-                    element={
-                        <ItemListContainer
                         />
                     }
                 />
                 <Route
-                    path="/item/:id"
-                    element={<ItemDetailContainer />}
+                    path="/category/:idCategory"
+                    element={<ItemListContainer />}
                 />
+                <Route path="/item/:id" element={<ItemDetailContainer />} />
 
                 <Route exact path="/cart" element={<Cart />} />
 
