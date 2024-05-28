@@ -4,6 +4,10 @@
 @tailwind components;
 @tailwind utilities;
 
+input[type="text"]:focus ~ .input-text{
+    @apply text-links-hover;
+}
+
 @layer base{
     body{
         font-family: "Readex Pro", sans-serif;
@@ -28,7 +32,7 @@
     }
 
     .button-primary{
-        @apply bg-links-hover/75 hover:bg-links-hover px-6 py-3 rounded-md text-white font-medium tracking-wider transition uppercase text-sm
+        @apply bg-transparent border-1 border-slate-500 hover:bg-slate-200 hover:border-slate-200 hover:font-bold px-6 py-2 rounded-sm text-black font-medium tracking-wider transition uppercase text-sm
     }
 
     .button-disabled{

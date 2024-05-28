@@ -1,4 +1,4 @@
-import ItemDetail from "./ItemDetail";
+import Item from "./Item";
 
 const ItemList = ({ productos }) => {
 
@@ -6,7 +6,7 @@ const ItemList = ({ productos }) => {
         <div className="max-w-7xl mx-auto transition-all duration-300 ease-in">
             <div className="flex justify-center items-center gap-4 flex-wrap">
                 {productos.map((item) => (
-                    <ItemDetail key={item.id} item={item} />
+                    <Item key={item.id} item={item} />
                 ))}
             </div>
         </div>

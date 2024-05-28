@@ -1,30 +1,33 @@
 import { useState } from "react";
 import { IoMdAdd } from "react-icons/io";
 import { BiMinus } from "react-icons/bi";
+import { NavLink } from "react-router-dom";
 
-const ItemCount = ({ stock, initial, onAdd }) => {
-    const [count, setCount] = useState(initial);
+const ItemCount = ({ stock, onAdd }) => {
+    const [contador, setContador] = useState(1);
+    const [itemStock, setItemStock] = useState(stock);
+    const [visible, setVisible] = useState(true);
 
     const increment = () => {
-        if (count < stock) {
-            setCount(count + 1);
+        if (contador < itemStock) {
+            setContador(contador + 1);
         } else {
-            alert(
-                `Nuestro stock disponible en estos momentos es de ${stock} unidades`
-            );
+            alert(`No hay suficiente stock disponible en estos momentos.`);
         }
     };
 
     const decrement = () => {
-        if (count > 1) {
-            setCount(count - 1);
+        if (contador > 1) {
+            setContador(contador - 1);
         }
     };
 
     const addToCart = () => {
-        if (count > 0 && count <= stock) {
-            onAdd(count);
-            setCount(initial);
+        if (contador <= itemStock) {
+            setItemStock(itemStock - contador);
+            onAdd(contador);
+            setContador(1);
+            setVisible(false);
         }
     };
 
@@ -36,24 +39,32 @@ const ItemCount = ({ stock, initial, onAdd }) => {
                     className="text-lg cursor-pointer text-links-hover font-extrabold"
                 />
 
-                <span className="text-lg block w-20 text-center">{count}</span>
+                <span className="text-lg block w-20 text-center">
+                    {contador}
+                </span>
 
                 <IoMdAdd
                     onClick={increment}
                     className="text-lg cursor-pointer text-links-hover font-extrabold"
                 />
             </div>
-            <button
-                onClick={addToCart}
-                className={
-                    stock === 0
-                        ? "button-disabled w-full lg:w-2/3 lg:ml-3"
-                        : "button-primary w-full lg:w-2/3 lg:ml-3"
-                }
-                disabled={stock === 0}
-            >
-                Agregar al Carrito
-            </button>
+            {visible ? (
+                <button
+                    onClick={addToCart}
+                    className={
+                        itemStock === 0
+                            ? "button-disabled w-full lg:w-2/3 lg:ml-3"
+                            : "button-primary w-full lg:w-2/3 lg:ml-3"
+                    }
+                    disabled={itemStock === 0}
+                >
+                    Agregar al Carrito
+                </button>
+            ) : (
+                <button className="button-primary w-full lg:w-2/3 lg:ml-3">
+                    <NavLink to={"/cart"}>Finalizar Compra</NavLink>
+                </button>
+            )}
         </div>
     );
 };

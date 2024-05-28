@@ -1,8 +1,14 @@
 import ItemList from "./ItemList";
 import { useState, useEffect } from "react";
-import GridLoader from "react-spinners/GridLoader";
+import BounceLoader from "react-spinners/BounceLoader";
 import { useParams } from "react-router-dom";
-import NotFound from "./NotFound";
+import {
+    collection,
+    getDocs,
+    getFirestore,
+    query,
+    where,
+} from "firebase/firestore";
 
 const override = {
     display: "block",
@@ -10,29 +16,27 @@ const override = {
 };
 
 const ItemListContainer = ({ greeting }) => {
+    const color = "#e5097f";
     const { idCategory } = useParams();
-    const [color, setColor] = useState("#e5097f");
     const [productos, setProductos] = useState([]);
-    const [filtrado, setFiltrado] = useState([]);
     const [loading, setLoading] = useState(true);
 
+    //Accedo a la coleccion utilizando filtros
     useEffect(() => {
-        fetch("https://fakestoreapi.com/products")
-            .then((res) => res.json())
-            .then((data) => {
-                data.map((i) => {
-                    i.category = i.category.replace(" ", "-");
-                });
+        const db = getFirestore();
+        const itemsCollection = collection(db, "productos");
+        const resultQuery = idCategory ? query(itemsCollection, where("category", "==", idCategory)): itemsCollection;
+        getDocs(resultQuery).then(snapShot => {
 
-                if (idCategory === undefined) {
-                    setProductos(data);
-                } else {
-                    const match = data.filter((i) => i.category === idCategory);
-
-                    setFiltrado(match);
-                }
+            if (snapShot.size > 0) {
+                setProductos(snapShot.docs.map(doc => ({ id: doc.id, ...doc.data() })));
                 setLoading(false);
-            });
+            } else {
+                console.log("No existe el documento!");
+                setProductos([]);
+                setLoading(false);
+            }
+        });
     }, [idCategory]);
 
     return (
@@ -43,41 +47,19 @@ const ItemListContainer = ({ greeting }) => {
 
             <div className="flex justify-center w-3/4 mx-auto md:w-full lg:w-3/4 2xl:w-full">
                 <div>
-                    {idCategory === undefined ? (
-                        <>
-                            <h2 className="text-2xl font-bold text-center mb-4">
-                                Todos los productos
-                            </h2>
-                            <GridLoader
-                                color={color}
-                                loading={loading}
-                                cssOverride={override}
-                                size={20}
-                                aria-label="Cargando..."
-                                data-testid="loader"
-                                speedMultiplier={0.75}
-                            />
-                            <ItemList productos={productos} />
-                        </>
-                    ) :
-                        <>
-                            <GridLoader
-                                color={color}
-                                loading={loading}
-                                cssOverride={override}
-                                size={20}
-                                aria-label="Cargando..."
-                                data-testid="loader"
-                                speedMultiplier={0.75}
-                            />
-
-                            <ItemList productos={filtrado} />
-                        </>
-                    }
-
-                    {
-                        filtrado.length === 0 && idCategory !== undefined ? <NotFound /> : null
-                    }
+                    {loading ? (
+                        <BounceLoader
+                            color={color}
+                            loading={loading}
+                            cssOverride={override}
+                            size={40}
+                            aria-label="Cargando..."
+                            data-testid="loader"
+                            speedMultiplier={1.5}
+                        />
+                    ) : (
+                        <ItemList productos={productos} />
+                    )}
                 </div>
             </div>
         </div>

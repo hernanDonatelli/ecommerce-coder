@@ -1,29 +1,44 @@
-import { useState, createContext, useEffect } from "react";
+import { useState, createContext } from "react";
 
 export const CartContext = createContext();
 
 const CartContextProvider = ({ children }) => {
-    // useEffect(() => {
-    //     fetch("https://fakestoreapi.com/products")
-    //         .then((res) => res.json())
-    //         .then((data) => setProductos(data));
-    // })
+    const [cart, setCart] = useState([]);
 
-    const [productos, setProductos] = useState([]);
-    const [carrito, setCarrito] = useState([]);
-
-    const agregarProducto = (id) => {
-        const producto = productos.find((item) => item.id === id);
-        setCarrito([...carrito, { ...producto }]);
+    const addItem = (item, quantity) => {
+        if (isInCart(item.id)) {
+            const product = cart.find(prod => prod.id === item.id);
+            product.quantity += quantity;
+            setCart([...cart]);
+        } else {
+            setCart([...cart, { ...item, quantity:quantity }]);
+        }
     };
 
-    const totalProductos = () => {
-        return carrito.length;
+    const removeItem = (id) => {
+        const cartUpdated = cart.filter(prod => prod.id !== id);
+        setCart([...cartUpdated]);
+    };
+
+    const clear = () => {
+        setCart([]);
+    };
+
+    const isInCart = (id) => {
+        return cart.some(prod => prod.id === id);
+    };
+
+    const getTotalProducts = () => {
+        return cart.reduce((acumulador, item) => (acumulador += item.quantity), 0);
+    };
+
+    const getSumProducts = () => {
+        return cart.reduce((acumulador, item) => (acumulador += item.price * item.quantity), 0);
     };
 
     return (
         <CartContext.Provider
-            value={{ productos, carrito, agregarProducto, totalProductos }}
+            value={{ cart, addItem, removeItem, clear, getTotalProducts, getSumProducts }}
         >
             {children}
         </CartContext.Provider>
