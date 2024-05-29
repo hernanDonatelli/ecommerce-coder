@@ -20,7 +20,7 @@
 <br/>
 
 <p>Proyecto de una app ecommerce para el curso de React.js en Coderhouse. Se utiliza productos de la API de Fake Store (https://fakestoreapi.com/) para simular una tienda de variadas categorias, los cuales fueron subidos a Firestore (base de datos de Firebase), que se utiliza como backend. El sitio es Full Responsive, adaptado para mobile, tablet y desktop según los breakpoints que utiliza Tailwindcss</p>
-<p>El proyecto funcionando: https://clinquant-eclair-bd6726.netlify.app/</p>
+<p>El proyecto funcionando: https://ecommerce-react-coder.netlify.app</p>
 
 <h2>Tecnologías Utilizadas</h2>
 
@@ -49,7 +49,11 @@ Ya dentro de cada producto podemos agregar o quitar cantidades del item, para lu
 </p>
 
 <p>
-En el Checkout se pueden observar los items que ha pedido, donde puede eliminar productos y/o vaciar el carrito. Para hacer efectivo el pedido se le pide completar los datos del formulario, donde una vez completados (obligatorios) se finaliza la operacion generandose un ID de pedido.
+En el Checkout se pueden observar los items agregados, donde puede eliminar productos y/o vaciar el carrito. Para hacer efectivo el pedido se le pide completar los datos del formulario, y una vez completos (obligatorios) se finaliza la operacion generandose un ID de pedido.
+</p>
+
+<p>
+Por ultimo, una vez generado el pedido se le envia un email (mediante Email.js) con informacion de la compra y el pedido realizado al cliente con el ID del mismo.
 </p>
 
 <h2>Autor</h2>

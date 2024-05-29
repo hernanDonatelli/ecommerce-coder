@@ -1,4 +1,5 @@
-import { useState, useContext } from "react";
+import { useState, useContext, useRef } from "react";
+import emailjs from "@emailjs/browser";
 import { CartContext } from "../context/CartContext";
 import {
     addDoc,
@@ -19,12 +20,11 @@ const Checkout = () => {
     const [nombreError, setNombreError] = useState("");
     const [emailError, setEmailError] = useState("");
     const [telefonoError, setTelefonoError] = useState("");
+    const form = useRef();
 
-    const obtenerTotal = () => {
-        return cart.reduce((acumulador, item) => (acumulador += item.price), 0);
-    };
+    const sendEmail = (e) => {
+        e.preventDefault();
 
-    const generarOrden = () => {
         if (nombre === "") {
             setNombreError("Por favor, ingrese su nombre");
             return false;
@@ -46,6 +46,26 @@ const Checkout = () => {
             setTelefonoError("");
         }
 
+        emailjs
+            .sendForm("service_e5bfvfm", "template_2le1vf6", form.current, {
+                publicKey: "XcpFl9Ds8mQUrTjD6",
+            })
+            .then(
+                () => {
+                    generarOrden();
+                },
+                (error) => {
+                    console.log("FAILED...", error.text);
+                }
+            );
+
+    };
+
+    const obtenerTotal = () => {
+        return cart.reduce((acumulador, item) => (acumulador += item.price), 0);
+    };
+
+    const generarOrden = () => {
         const fecha = new Date();
         const date = `${fecha.getDate()}-${
             fecha.getMonth() + 1
@@ -128,101 +148,108 @@ const Checkout = () => {
                 <h2 className="text-3xl font-bold">Checkout</h2>
             </div>
 
-            <div className="w-full px-16 mt-16 mb-8 flex flex-col lg:flex-row justify-evenly items-center lg:gap-8 2xl:w-3/4 2xl:mx-auto">
+            <div className="w-full px-4 mt-16 mb-8 sm:px-10 md:px-16 flex flex-col lg:flex-row justify-evenly items-center lg:gap-8 2xl:w-3/4 2xl:mx-auto">
                 <div className="w-full md:w-full flex flex-col justify-center mb-10 lg:w-1/2 lg:mb-0">
-                    <label className="relative my-2">
-                        <input
-                            onInput={(e) => setNombre(e.target.value)}
-                            className={
-                                nombreError == ""
-                                    ? "w-full outline-none border-solid border-1 border-gray-200 rounded-lg px-4 py-2 focus:border-links-hover focus:border-opacity-50 transition duration-200"
-                                    : "w-full outline-none border-solid border-1 border-red-500 rounded-lg px-4 py-2 focus:border-links-hover focus:border-opacity-50 transition duration-200"
-                            }
-                            type="text"
-                            placeholder=""
-                        />
-                        <span
-                            className={
-                                nombreError == ""
-                                    ? "absolute text-gray-500 bg-white px-2 -top-2 text-xs left-4 transition duration-300 input-text"
-                                    : "absolute text-red-500 bg-white px-2 -top-2 text-xs left-4 transition duration-300 input-text"
-                            }
-                        >
-                            Nombre*
-                        </span>
-                        <div>
-                            {nombreError ? (
-                                <p className="text-red-500 text-xs">
-                                    {nombreError}
-                                </p>
-                            ) : null}
-                        </div>
-                    </label>
-                    <label className="relative my-2">
-                        <input
-                            onInput={(e) => setEmail(e.target.value)}
-                            className={
-                                emailError == ""
-                                    ? "w-full outline-none border-solid border-1 border-gray-200 rounded-lg px-4 py-2 focus:border-links-hover focus:border-opacity-50 transition duration-200"
-                                    : "w-full outline-none border-solid border-1 border-red-500 rounded-lg px-4 py-2 focus:border-links-hover focus:border-opacity-50 transition duration-200"
-                            }
-                            type="text"
-                        />
-                        <span
-                            className={
-                                emailError == ""
-                                    ? "absolute text-gray-500 bg-white px-2 -top-2 text-xs left-4 transition duration-300 input-text"
-                                    : "absolute text-red-500 bg-white px-2 -top-2 text-xs left-4 transition duration-300 input-text"
-                            }
-                        >
-                            eMail*
-                        </span>
-                        <div>
-                            {emailError ? (
-                                <p className="text-red-500 text-xs">
-                                    {emailError}
-                                </p>
-                            ) : null}
-                        </div>
-                    </label>
+                    <form ref={form} onSubmit={sendEmail}>
+                        <label htmlFor="user_name" className="relative my-2">
+                            <input
+                                id="user_name"
+                                name="user_name"
+                                onInput={(e) => setNombre(e.target.value)}
+                                className={
+                                    nombreError == ""
+                                        ? "w-full outline-none border-solid border-1 border-gray-200 rounded-lg px-4 py-2 focus:border-links-hover focus:border-opacity-50 transition duration-200 mt-3"
+                                        : "w-full outline-none border-solid border-1 border-red-500 rounded-lg px-4 py-2 focus:border-links-hover focus:border-opacity-50 transition duration-200 mt-3"
+                                }
+                                type="text"
+                                placeholder=""
+                            />
+                            <span
+                                className={
+                                    nombreError == ""
+                                        ? "absolute text-gray-500 bg-white px-2 -top-5 text-xs left-4 transition duration-300 input-text"
+                                        : "absolute text-red-500 bg-white px-2 -top-5 text-xs left-4 transition duration-300 input-text"
+                                }
+                            >
+                                Nombre*
+                            </span>
+                            <div>
+                                {nombreError ? (
+                                    <p className="text-red-500 text-xs">
+                                        {nombreError}
+                                    </p>
+                                ) : null}
+                            </div>
+                        </label>
+                        <label htmlFor="user_email" className="relative my-2">
+                            <input
+                                id="user_email"
+                                name="user_email"
+                                onInput={(e) => setEmail(e.target.value)}
+                                className={
+                                    emailError == ""
+                                        ? "w-full outline-none border-solid border-1 border-gray-200 rounded-lg px-4 py-2 focus:border-links-hover focus:border-opacity-50 transition duration-200 mt-3"
+                                        : "w-full outline-none border-solid border-1 border-red-500 rounded-lg px-4 py-2 focus:border-links-hover focus:border-opacity-50 transition duration-200 mt-3"
+                                }
+                                type="text"
+                            />
+                            <span
+                                className={
+                                    emailError == ""
+                                        ? "absolute text-gray-500 bg-white px-2 -top-5 text-xs left-4 transition duration-300 input-text"
+                                        : "absolute text-red-500 bg-white px-2 -top-5 text-xs left-4 transition duration-300 input-text"
+                                }
+                            >
+                                eMail*
+                            </span>
+                            <div>
+                                {emailError ? (
+                                    <p className="text-red-500 text-xs">
+                                        {emailError}
+                                    </p>
+                                ) : null}
+                            </div>
+                        </label>
 
-                    <label className="relative my-2">
+                        <label htmlFor="user_phone" className="relative my-2">
+                            <input
+                                name="user_phone"
+                                id="user_phone"
+                                onInput={(e) => setTelefono(e.target.value)}
+                                className={
+                                    telefonoError == ""
+                                        ? "w-full outline-none border-solid border-1 border-gray-200 rounded-lg px-4 py-2 focus:border-links-hover focus:border-opacity-50 transition duration-200 mt-3"
+                                        : "w-full outline-none border-solid border-1 border-red-500 rounded-lg px-4 py-2 focus:border-links-hover focus:border-opacity-50 transition duration-200 mt-3"
+                                }
+                                type="text"
+                                minLength={10}
+                            />
+                            <span
+                                className={
+                                    telefonoError == ""
+                                        ? "absolute text-gray-500 bg-white px-2 -top-5 text-xs left-4 transition duration-300 input-text"
+                                        : "absolute text-red-500 bg-white px-2 -top-5 text-xs left-4 transition duration-300 input-text"
+                                }
+                            >
+                                Telefono*
+                            </span>
+                            <div>
+                                {telefonoError ? (
+                                    <p className="text-red-500 text-xs">
+                                        {telefonoError}
+                                    </p>
+                                ) : null}
+                            </div>
+                        </label>
+
+                        <span className="text-xs">* Campos obligatorios</span>
+
                         <input
-                            onInput={(e) => setTelefono(e.target.value)}
-                            className={
-                                telefonoError == ""
-                                    ? "w-full outline-none border-solid border-1 border-gray-200 rounded-lg px-4 py-2 focus:border-links-hover focus:border-opacity-50 transition duration-200"
-                                    : "w-full outline-none border-solid border-1 border-red-500 rounded-lg px-4 py-2 focus:border-links-hover focus:border-opacity-50 transition duration-200"
-                            }
-                            type="text"
+                            type="submit"
+                            className="button-primary mt-4 cursor-pointer w-full"
+                            value="Generar Orden"
                         />
-                        <span
-                            className={
-                                telefonoError == ""
-                                    ? "absolute text-gray-500 bg-white px-2 -top-2 text-xs left-4 transition duration-300 input-text"
-                                    : "absolute text-red-500 bg-white px-2 -top-2 text-xs left-4 transition duration-300 input-text"
-                            }
-                        >
-                            Telefono*
-                        </span>
-                        <div>
-                            {telefonoError ? (
-                                <p className="text-red-500 text-xs">
-                                    {telefonoError}
-                                </p>
-                            ) : null}
-                        </div>
-                    </label>
-
-                    <span className="text-xs">* Campos obligatorios</span>
-
-                    <button
-                        onClick={generarOrden}
-                        type="button"
-                        className="button-primary mt-4"
-                    >
-                        Generar Orden
-                    </button>
+                    </form>
                 </div>
 
                 <div className="md:w-full mt-4 md:mt-0">
@@ -233,7 +260,7 @@ const Checkout = () => {
                                     <tr key={item.id}>
                                         <td className="border py-2">
                                             <img
-                                                className="w-28 block mx-auto md:w-12 lg:w-24"
+                                                className="w-28 block mx-auto md:max-w-12 lg:max-w-20"
                                                 src={item.image}
                                                 alt={item.title}
                                             />
