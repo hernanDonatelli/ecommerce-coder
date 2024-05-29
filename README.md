@@ -1,20 +1,26 @@
 # Proyecto Final Ecommerce Fake Store
+
 ## Curso de React Coderhouse
 
 ### Mobile
+
 <img src="mobile.png" alt="Mobile" />
 <img src="mobile_2.png" alt="Mobile" />
 
 ### Tablet
+
 <img src="tablet.png" alt="Tablet" />
 
 ### PC
+
 <img src="pc.png" alt="PC" />
 
 ### Sin Stock suficiente
+
 <img src="itemNoStock.png" alt="Sin Stock" />
 
 ### Checkout
+
 <img src="checkout.png" alt="Checkout" />
 
 <br/>
@@ -38,24 +44,27 @@
     <li>Email.js</li>
 </ul>
 
-<h2>Usabilidad</h2>
-<p>
-El sistema es un ecommerce donde su puede ver un catalogo de todos los productos en su Homepage y en su Menu posee las categorias donde se agrupan los mismos, pudiendo filtrarse por ellas. Tambien alli encontramos una imagen del carrito de compras con los items agregados y el subtotal al momento a modo de resumen.
-</p>
-
-<p>
-Cada tarjeta de producto posee su imagen, nombre, precio, categoria, y se puede observar a primera vista si hay disponibilidad de stock o no, pero permitiendo de todas formas ver una descripcion detallada de cada articulo y sus caracteristicas.
-<br/>
-Ya dentro de cada producto podemos agregar o quitar cantidades del item, para luego agregarlo al carrito de compras. Una vez agregados, el subtotal se actualiza automaticamente y podemos finalizar la compra o continuar eligiendo otros items para pasar al Checkout y realizar el pedido.
-</p>
-
-<p>
-En el Checkout se pueden observar los items agregados, donde puede eliminar productos y/o vaciar el carrito. Para hacer efectivo el pedido se le pide completar los datos del formulario, y una vez completos (obligatorios) se finaliza la operacion generandose un ID de pedido.
-</p>
-
-<p>
-Por ultimo, una vez generado el pedido se le envia un email (mediante Email.js) avisandole al cliente que se contactarán en 24hs para confirmar el pedido, forma de pago y dia de entrega.
-</p>
+<h2>Funcionalidad</h2>
+<ul>
+    <li>
+    El sistema es un ecommerce donde su puede ver un catalogo de todos los productos en su Homepage y en su Menu posee las categorias donde se agrupan los mismos, pudiendo filtrarse por ellas. Tambien alli encontramos una imagen del carrito de compras con los items agregados y el subtotal al momento a modo de resumen.
+    </li>
+    <li>
+    Cada tarjeta de producto posee su imagen, nombre, precio, categoria, y se puede observar a primera vista si hay disponibilidad de stock o no, pero permitiendo de todas formas ver una descripcion detallada de cada articulo y sus caracteristicas.
+    </li>
+    <li>
+    Ya dentro de cada producto podemos agregar o quitar cantidades del item, para luego agregarlo al carrito de compras. Una vez agregados, el subtotal se actualiza automaticamente y podemos finalizar la compra o continuar eligiendo otros items para pasar al Checkout y realizar el pedido.
+    </li>
+    <li>
+    En el Checkout se pueden observar los items agregados, donde puede eliminar productos y/o vaciar el carrito. Para hacer efectivo el pedido se le pide completar los datos del formulario, y una vez completos (obligatorios) se finaliza la operacion generandose un ID de pedido.
+    </li>
+    <li>
+    Al procesarse el pedido se actualizan los stocks en Firestore, pudiendo en algunos casos cambiar el estado del producto de Disponible a Agotado.
+   </li>
+    <li>
+    Por ultimo, una vez generado el pedido se le envia un email (mediante Email.js) avisandole al cliente que se contactarán en 24hs para confirmar el pedido, forma de pago y dia de entrega.
+    </li>
+</ul>
 
 <h2>Autor</h2>
 <ul>
