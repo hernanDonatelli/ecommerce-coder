@@ -25,14 +25,16 @@ const ItemListContainer = ({ greeting }) => {
     useEffect(() => {
         const db = getFirestore();
         const itemsCollection = collection(db, "productos");
-        const resultQuery = idCategory ? query(itemsCollection, where("category", "==", idCategory)): itemsCollection;
-        getDocs(resultQuery).then(snapShot => {
-
+        const resultQuery = idCategory
+            ? query(itemsCollection, where("category", "==", idCategory))
+            : itemsCollection;
+        getDocs(resultQuery).then((snapShot) => {
             if (snapShot.size > 0) {
-                setProductos(snapShot.docs.map(doc => ({ id: doc.id, ...doc.data() })));
+                setProductos(
+                    snapShot.docs.map((doc) => ({ id: doc.id, ...doc.data() }))
+                );
                 setLoading(false);
             } else {
-                console.log("No existe el documento!");
                 setProductos([]);
                 setLoading(false);
             }

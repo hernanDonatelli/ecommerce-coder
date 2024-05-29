@@ -1,11 +1,6 @@
 import { useEffect } from "react";
 import { NavLink } from "react-router-dom";
-import {
-    AiFillStar,
-    AiFillHeart,
-    AiOutlineStar,
-    AiFillEye,
-} from "react-icons/ai";
+import { AiFillStar, AiOutlineStar } from "react-icons/ai";
 import Aos from "aos";
 import "aos/dist/aos.css";
 
@@ -37,15 +32,18 @@ const Item = ({ item }) => {
                     <span className="badge">{item.category}</span>
                 </div>
 
-                {/* Product title */}
+                {/* Titulo */}
                 <h2 className="product-title">{item.title}</h2>
 
-                {/* Product price */}
-                <div className="flex items-center justify-between">
-                    <span className="text-xl font-bold">${item.price}</span>
+                {/* Precio */}
+                <div className="flex flex-col">
+                    <span className="text-2xl font-bold">${item.price}</span>
+                    <span className="text-sm text-gray-500">
+                        Stock: {item.stock}u
+                    </span>
                 </div>
 
-                {/* product rating */}
+                {/* Rating */}
                 <span className="flex items-center mt-1">
                     {Array(Math.round(item.rating.rate))
                         .fill(0)
@@ -66,16 +64,9 @@ const Item = ({ item }) => {
                     </span>
                 </span>
 
-                {/* Add to cart button */}
+                {/* Botón */}
                 <div className="mt-5 gap-2">
-                    <button
-                        className={
-                            item.stock === 0
-                                ? "button-disabled w-full"
-                                : "button-primary w-full"
-                        }
-                        disabled={item.stock === 0}
-                    >
+                    <button className="button-primary w-full">
                         <NavLink to={`/item/${item.id}`}>Ver Producto</NavLink>
                     </button>
                 </div>

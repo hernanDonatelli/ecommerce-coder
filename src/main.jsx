@@ -3,6 +3,8 @@ import ReactDOM from "react-dom/client";
 import App from "./App.jsx";
 import "./index.css";
 
+import 'react-toastify/dist/ReactToastify.css';
+
 import { initializeApp } from "firebase/app";
 
 // Your web app's Firebase configuration

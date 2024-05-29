@@ -2,11 +2,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import ItemDetail from "./ItemDetail";
 import { BounceLoader } from "react-spinners";
-import {
-    doc,
-    getDoc,
-    getFirestore
-} from "firebase/firestore";
+import { doc, getDoc, getFirestore } from "firebase/firestore";
 
 const ItemDetailContainer = () => {
     const { id } = useParams();
@@ -24,9 +20,7 @@ const ItemDetailContainer = () => {
         const docRef = doc(db, "productos", id);
         getDoc(docRef).then((snapShot) => {
             if (snapShot.exists()) {
-                setItem(
-                    {id: snapShot.id, ...snapShot.data()}
-                );
+                setItem({ id: snapShot.id, ...snapShot.data() });
                 setLoading(false);
             } else {
                 setItem([]);

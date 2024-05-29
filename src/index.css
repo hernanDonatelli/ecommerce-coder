@@ -42,5 +42,6 @@ input[type="text"]:focus ~ .input-text{
     .button-icon{
         @apply flex-grow flex justify-center items-center bg-gray-300/60 hover:bg-gray-300/80 p-2 rounded-md transition
     }
+
 }
 

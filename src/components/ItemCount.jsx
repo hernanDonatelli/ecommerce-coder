@@ -1,7 +1,6 @@
 import { useState } from "react";
-import { IoMdAdd } from "react-icons/io";
-import { BiMinus } from "react-icons/bi";
 import { NavLink } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const ItemCount = ({ stock, onAdd }) => {
     const [contador, setContador] = useState(1);
@@ -12,7 +11,7 @@ const ItemCount = ({ stock, onAdd }) => {
         if (contador < itemStock) {
             setContador(contador + 1);
         } else {
-            alert(`No hay suficiente stock disponible en estos momentos.`);
+            toast.error( `Solo disponemos de ${itemStock} unidades en estos momentos.`);
         }
     };
 
@@ -28,25 +27,40 @@ const ItemCount = ({ stock, onAdd }) => {
             onAdd(contador);
             setContador(1);
             setVisible(false);
+            toast.success(`Agregaste ${contador} unidades al carrito.`);
         }
     };
 
     return (
         <div className="flex flex-col items-center mt-5 lg:flex-row">
-            <div className="w-full flex justify-between items-center bg-gray-200 rounded-sm px-8 py-2 mb-3 lg:mb-0 lg:w-1/3 lg:px-4">
-                <BiMinus
+            <div className="w-full flex justify-between items-center rounded-sm px-8 py-2 mb-3 lg:mb-0 lg:w-1/3 lg:px-4">
+                <button
                     onClick={decrement}
-                    className="text-lg cursor-pointer text-links-hover font-extrabold"
-                />
+                    disabled={itemStock === 0}
+                    className={
+                        itemStock === 0
+                            ? "cursor-not-allowed text-2xl text-gray-400 font-extrabold"
+                            : "text-lg cursor-pointer text-links-hover font-extrabold"
+                    }
+                >
+                    -
+                </button>
 
                 <span className="text-lg block w-20 text-center">
-                    {contador}
+                    {itemStock === 0 ? 0 : contador}
                 </span>
 
-                <IoMdAdd
+                <button
                     onClick={increment}
-                    className="text-lg cursor-pointer text-links-hover font-extrabold"
-                />
+                    disabled={itemStock === 0}
+                    className={
+                        itemStock === 0
+                            ? "cursor-not-allowed text-2xl text-gray-400 font-extrabold"
+                            : "text-lg cursor-pointer text-links-hover font-extrabold"
+                    }
+                >
+                    +
+                </button>
             </div>
             {visible ? (
                 <button

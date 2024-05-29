@@ -1,26 +1,56 @@
-import { useEffect, useState } from "react";
-import { BounceLoader } from "react-spinners";
-import { useContext } from "react";
+import { useState, useContext } from "react";
 import { CartContext } from "../context/CartContext";
-import { addDoc, collection, getFirestore } from "firebase/firestore";
+import {
+    addDoc,
+    collection,
+    doc,
+    getFirestore,
+    updateDoc,
+} from "firebase/firestore";
+import { NavLink } from "react-router-dom";
 
 const Checkout = () => {
-    const { cart, getTotalProducts, getSumProducts } = useContext(CartContext);
-    const [loading, setLoading] = useState(true);
-    const override = {
-        display: "block",
-        margin: "4rem auto",
-    };
+    const { cart, clear, getTotalProducts, getSumProducts } =
+        useContext(CartContext);
     const [nombre, setNombre] = useState("");
     const [email, setEmail] = useState("");
     const [telefono, setTelefono] = useState("");
     const [orderId, setOrderId] = useState("");
+    const [nombreError, setNombreError] = useState("");
+    const [emailError, setEmailError] = useState("");
+    const [telefonoError, setTelefonoError] = useState("");
 
     const obtenerTotal = () => {
         return cart.reduce((acumulador, item) => (acumulador += item.price), 0);
     };
 
     const generarOrden = () => {
+        if (nombre === "") {
+            setNombreError("Por favor, ingrese su nombre");
+            return false;
+        } else {
+            setNombreError("");
+        }
+
+        if (email === "") {
+            setEmailError("Por favor, ingrese su email");
+            return false;
+        } else {
+            setEmailError("");
+        }
+
+        if (telefono === "") {
+            setTelefonoError("Por favor, ingrese su teléfono");
+            return false;
+        } else {
+            setTelefonoError("");
+        }
+
+        const fecha = new Date();
+        const date = `${fecha.getDate()}-${
+            fecha.getMonth() + 1
+        }-${fecha.getFullYear()} ${fecha.getHours()}:${fecha.getMinutes()}hs`;
+
         const buyer = {
             name: nombre,
             email: email,
@@ -33,7 +63,12 @@ const Checkout = () => {
             price: item.price,
         }));
 
-        const order = { buyer: buyer, items: items, total: obtenerTotal(), date: `${new Date().getDate()}-${new Date().getMonth()}-${new Date().getFullYear()}` };
+        const order = {
+            buyer: buyer,
+            items: items,
+            total: obtenerTotal(),
+            date: date,
+        };
 
         const db = getFirestore();
         const ordersCollection = collection(db, "orders");
@@ -41,8 +76,51 @@ const Checkout = () => {
         //Agrego nuevo pedido
         addDoc(ordersCollection, order).then((data) => {
             setOrderId(data.id);
+            clear();
+        });
+
+        //Actualizo el stock en base al pedido
+        cart.forEach((item) => {
+            const docRef = doc(db, "productos", item.id);
+            updateDoc(docRef, {
+                stock: item.stock - item.quantity,
+            });
         });
     };
+
+    if (orderId) {
+        return (
+            <div className="h-screen flex justify-center items-center -mt-20">
+                <div className="flex justify-center items-center flex-col bg-slate-100 py-2 w-3/4 mx-auto shadow-sm shadow-slate-300 rounded-md">
+                    <p className="text-center">
+                        Felicitaciones! Tu codigo de compra es:{" "}
+                        <span className="font-bold">{orderId}</span>
+                    </p>
+                    <p className="text-xs">
+                        Orden generada el {new Date().getDate()}-
+                        {new Date().getMonth() + 1}-{new Date().getFullYear()} a
+                        las {new Date().getHours()}:{new Date().getMinutes()}:
+                        {new Date().getSeconds()}
+                    </p>
+                </div>
+            </div>
+        );
+    }
+
+    if (getTotalProducts() == 0) {
+        return (
+            <div className="h-screen flex justify-center items-center -mt-20">
+                <div className="flex justify-center items-center flex-col">
+                    <p className="text-paragraph">
+                        No hay productos en el carrito
+                    </p>
+                    <button className="button-primary mt-8">
+                        <NavLink to={"/"}>Volver a la página principal</NavLink>
+                    </button>
+                </div>
+            </div>
+        );
+    }
 
     return (
         <>
@@ -55,35 +133,88 @@ const Checkout = () => {
                     <label className="relative my-2">
                         <input
                             onInput={(e) => setNombre(e.target.value)}
-                            className="w-full outline-none border-solid border-1 border-gray-200 rounded-lg px-4 py-2 focus:border-links-hover focus:border-opacity-50 transition duration-200"
+                            className={
+                                nombreError == ""
+                                    ? "w-full outline-none border-solid border-1 border-gray-200 rounded-lg px-4 py-2 focus:border-links-hover focus:border-opacity-50 transition duration-200"
+                                    : "w-full outline-none border-solid border-1 border-red-500 rounded-lg px-4 py-2 focus:border-links-hover focus:border-opacity-50 transition duration-200"
+                            }
                             type="text"
                             placeholder=""
                         />
-                        <span className="absolute text-gray-500 bg-white px-2 -top-2 text-xs left-4 transition duration-300 input-text">
-                            Nombre
+                        <span
+                            className={
+                                nombreError == ""
+                                    ? "absolute text-gray-500 bg-white px-2 -top-2 text-xs left-4 transition duration-300 input-text"
+                                    : "absolute text-red-500 bg-white px-2 -top-2 text-xs left-4 transition duration-300 input-text"
+                            }
+                        >
+                            Nombre*
                         </span>
+                        <div>
+                            {nombreError ? (
+                                <p className="text-red-500 text-xs">
+                                    {nombreError}
+                                </p>
+                            ) : null}
+                        </div>
                     </label>
                     <label className="relative my-2">
                         <input
                             onInput={(e) => setEmail(e.target.value)}
-                            className="w-full outline-none border-solid border-1 border-gray-200 rounded-lg px-4 py-2 focus:border-links-hover focus:border-opacity-50 transition duration-200"
+                            className={
+                                emailError == ""
+                                    ? "w-full outline-none border-solid border-1 border-gray-200 rounded-lg px-4 py-2 focus:border-links-hover focus:border-opacity-50 transition duration-200"
+                                    : "w-full outline-none border-solid border-1 border-red-500 rounded-lg px-4 py-2 focus:border-links-hover focus:border-opacity-50 transition duration-200"
+                            }
                             type="text"
                         />
-                        <span className="absolute text-gray-500 bg-white px-2 -top-2 text-xs left-4 transition duration-300 input-text">
-                            eMail
+                        <span
+                            className={
+                                emailError == ""
+                                    ? "absolute text-gray-500 bg-white px-2 -top-2 text-xs left-4 transition duration-300 input-text"
+                                    : "absolute text-red-500 bg-white px-2 -top-2 text-xs left-4 transition duration-300 input-text"
+                            }
+                        >
+                            eMail*
                         </span>
+                        <div>
+                            {emailError ? (
+                                <p className="text-red-500 text-xs">
+                                    {emailError}
+                                </p>
+                            ) : null}
+                        </div>
                     </label>
 
                     <label className="relative my-2">
                         <input
                             onInput={(e) => setTelefono(e.target.value)}
-                            className="w-full outline-none border-solid border-1 border-gray-200 rounded-lg px-4 py-2 focus:border-links-hover focus:border-opacity-50 transition duration-200 peer"
+                            className={
+                                telefonoError == ""
+                                    ? "w-full outline-none border-solid border-1 border-gray-200 rounded-lg px-4 py-2 focus:border-links-hover focus:border-opacity-50 transition duration-200"
+                                    : "w-full outline-none border-solid border-1 border-red-500 rounded-lg px-4 py-2 focus:border-links-hover focus:border-opacity-50 transition duration-200"
+                            }
                             type="text"
                         />
-                        <span className="absolute text-gray-500 bg-white px-2 -top-2 text-xs left-4 transition duration-300 input-text">
-                            Telefono
+                        <span
+                            className={
+                                telefonoError == ""
+                                    ? "absolute text-gray-500 bg-white px-2 -top-2 text-xs left-4 transition duration-300 input-text"
+                                    : "absolute text-red-500 bg-white px-2 -top-2 text-xs left-4 transition duration-300 input-text"
+                            }
+                        >
+                            Telefono*
                         </span>
+                        <div>
+                            {telefonoError ? (
+                                <p className="text-red-500 text-xs">
+                                    {telefonoError}
+                                </p>
+                            ) : null}
+                        </div>
                     </label>
+
+                    <span className="text-xs">* Campos obligatorios</span>
 
                     <button
                         onClick={generarOrden}
@@ -107,19 +238,20 @@ const Checkout = () => {
                                                 alt={item.title}
                                             />
                                         </td>
-                                        <td className="border py-2 px-2">
-                                            <span className="text-center block w-full truncate">
+                                        <td
+                                            colSpan={2}
+                                            className="border py-2 px-2 text-sm"
+                                        >
+                                            <p className="text-center block w-full truncate">
+                                                <span className="text-md font-bold">
+                                                    {item.quantity}x
+                                                </span>{" "}
                                                 {item.title}
-                                            </span>
+                                            </p>
                                         </td>
                                         <td className="border py-2">
                                             <span className="w-full text-center block">
                                                 ${item.price}
-                                            </span>
-                                        </td>
-                                        <td className="border py-2">
-                                            <span className="w-full text-center block">
-                                                x{item.quantity}
                                             </span>
                                         </td>
                                         <td className="border py-2">
@@ -149,22 +281,6 @@ const Checkout = () => {
                         </table>
                     }
                 </div>
-            </div>
-
-            <div className="mb-10">
-                {orderId ? (
-                    <div className="flex justify-center items-center flex-col bg-slate-100 py-2 w-3/4 mx-auto shadow-sm shadow-slate-300 rounded-md">
-                        <p className="text-center">
-                            Felicitaciones! Tu codigo de compra es:{" "}
-                            <span className="font-bold">{orderId}</span>
-                        </p>
-                        <p className="text-xs">
-                            Orden generada el {new Date().getDate()}-
-                            {new Date().getMonth() + 1}-
-                            {new Date().getFullYear()} a las {new Date().getHours()}:{new Date().getMinutes()}:{new Date().getSeconds()}
-                        </p>
-                    </div>
-                ) : null}
             </div>
         </>
     );

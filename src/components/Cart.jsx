@@ -13,7 +13,7 @@ const Cart = () => {
                 Cart
             </h1>
 
-            { getTotalProducts() == 0 ? (
+            {getTotalProducts() == 0 ? (
                 <div className="flex justify-center items-center flex-col">
                     <p className="text-paragraph">
                         No hay productos en el carrito
@@ -23,7 +23,7 @@ const Cart = () => {
                     </button>
                 </div>
             ) : (
-                <div className="w-full sm:px-4 md:px-10 lg:w-3/4 lg:px-0 mx-auto overflow-x-auto">
+                <div className="w-[95%] lg:w-[85%] 2xl:w-2/3 mx-auto overflow-x-auto">
                     <table className="table-fixed w-full mx-auto">
                         <tbody>
                             <tr className="border-l-0 border-r-0">
@@ -41,27 +41,22 @@ const Cart = () => {
                                 <tr key={item.id}>
                                     <td className="border py-2">
                                         <img
-                                            className="w-28 block mx-auto md:w-12"
+                                            className="w-28 block mx-auto md:w-12 lg:w-20"
                                             src={item.image}
                                             alt={item.title}
                                         />
                                     </td>
-                                    <td className="border py-2 px-2">
-                                        <span className="text-center block w-full truncate">
-                                            {item.title}
-                                        </span>
+                                    <td colSpan={2} className="border py-2 px-2 text-sm">
+                                        <p className="text-center block w-full truncate">
+                                           <span className="text-md font-bold">{item.quantity}x</span> {item.title}
+                                        </p>
                                     </td>
-                                    <td className="border py-2">
+                                    <td className="border py-2 text-sm">
                                         <span className="w-full text-center block">
                                             ${item.price}
                                         </span>
                                     </td>
-                                    <td className="border py-2">
-                                        <span className="w-full text-center block">
-                                            x{item.quantity}
-                                        </span>
-                                    </td>
-                                    <td className="border py-2">
+                                    <td className="border py-2 text-sm">
                                         <span className="w-full text-center block">
                                             ${item.quantity * item.price}
                                         </span>
@@ -76,18 +71,20 @@ const Cart = () => {
                                 </tr>
                             ))}
                             <tr className="border border-l-0 border-r-0">
-                                <td colSpan={4} className="py-2 text-center">
+                                <td colSpan={3} className="py-2 text-center">
                                     <span className="font-bold text-xl">
                                         Total
                                     </span>
                                 </td>
-                                <td>
-                                    <span className="font-bold text-xl text-center block">
+                                <td colSpan={3}>
+                                    <span className="font-bold text-lg text-right block md:text-center">
                                         ${getSumProducts().toFixed(2)}
                                     </span>
                                 </td>
-                                <td className="py-2">
-                                    <button className="button-primary w-full">
+                            </tr>
+                            <tr>
+                                <td colSpan={6} className="py-2 text-center">
+                                    <button className="button-primary w-full sm:w-3/4 md:w-1/2 lg:w-1/3">
                                         <NavLink to={"/checkout"}>
                                             Checkout
                                         </NavLink>
