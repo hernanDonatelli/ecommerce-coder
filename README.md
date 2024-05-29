@@ -35,6 +35,7 @@
     <li>React-Router-Dom v6.22.3</li>
     <li>React-Toastify v10.0.5</li>
     <li>React-Icons v5.0.1</li>
+    <li>Email.js</li>
 </ul>
 
 <h2>Usabilidad</h2>
@@ -53,7 +54,7 @@ En el Checkout se pueden observar los items agregados, donde puede eliminar prod
 </p>
 
 <p>
-Por ultimo, una vez generado el pedido se le envia un email (mediante Email.js) con informacion de la compra y el pedido realizado al cliente con el ID del mismo.
+Por ultimo, una vez generado el pedido se le envia un email (mediante Email.js) avisandole al cliente que se contactarán en 24hs para confirmar el pedido, forma de pago y dia de entrega.
 </p>
 
 <h2>Autor</h2>
